@@ -13,18 +13,21 @@ class Board
   end
 
   def render
-    result = nil
-    until result
-      @display.render
-      result = @display.get_input
-    end
-    result
+    position = @display.get_move
+    move(position[0], position[1])
+    @display.render
   end
+
 
   def populate
     [0,1,6,7].each do |idx1|
       grid[idx1].each_index do |idx2|
         grid[idx1][idx2] = Piece.new([idx1, idx2])
+      end
+    end
+    [2,3,4,5].each do |idx1|
+      grid[idx1].each_index do |idx2|
+        grid[idx1][idx2] = "         nullpiece       "
       end
     end
   end
@@ -33,7 +36,7 @@ class Board
     raise "Please choose a piece" if self[start].nil?
     self[start].position = end_pos
     self[end_pos] = self[start]
-    self[start] = nil
+    self[start] = "         nullpiece       "
     unless end_pos[0].between?(0,7) && end_pos[1].between?(0,7)
       raise "Please choose a valid end position"
     end
