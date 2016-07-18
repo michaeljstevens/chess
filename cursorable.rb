@@ -31,12 +31,8 @@ module Cursorable
     down: [1, 0]
   }
 
-  def get_input
+  def handle_input
     key = KEYMAP[read_char]
-    handle_key(key)
-  end
-
-  def handle_key(key)
     case key
     when :ctrl_c
       exit 0
@@ -68,6 +64,6 @@ module Cursorable
 
   def update_pos(diff)
     new_pos = [@cursor_pos[0] + diff[0], @cursor_pos[1] + diff[1]]
-    @cursor_pos = new_pos if new_pos[0].between?(0,7) && new_pos[0].between?(0,7)
+    @cursor_pos = new_pos if new_pos[0].between?(0,7) && new_pos[1].between?(0,7)
   end
 end

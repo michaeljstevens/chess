@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'cursorable'
+require_relative 'board'
 
 class Display
   include Cursorable
@@ -8,6 +9,10 @@ class Display
     @board = board
     @cursor_pos = [0,0]
     @selected = false
+  end
+
+  def get_input
+    handle_input
   end
 
   def build_grid
@@ -32,6 +37,23 @@ class Display
       bg = :blue
     end
     { background: bg, color: :white }
+  end
+
+  def get_move
+    start_pos = nil
+    end_pos = nil
+    while true
+      render
+      while start_pos.nil?
+        render
+        start_pos = get_input
+      end
+      while end_pos.nil?
+        render
+        end_pos = get_input
+      end
+      return [start_pos, end_pos]
+    end
   end
 
   def render
