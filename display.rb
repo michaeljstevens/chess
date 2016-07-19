@@ -5,6 +5,8 @@ require_relative 'board'
 class Display
   include Cursorable
 
+  attr_accessor :board
+
   def initialize(board)
     @board = board
     @cursor_pos = [0,0]
@@ -16,7 +18,7 @@ class Display
   end
 
   def build_grid
-    @board.map.with_index do |row, i|
+    @board.grid.map.with_index do |row, i|
       build_row(row, i)
     end
   end
@@ -58,6 +60,9 @@ class Display
 
   def render
     system("clear")
+    if @board.in_check?(@board.current_player)
+      puts "#{(@board.current_player).upcase} is in check!"
+    end
     build_grid.each { |row| puts row.join }
   end
 

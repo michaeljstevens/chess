@@ -10,10 +10,11 @@ require_relative 'Pieces/Null'
 require_relative 'display'
 
 class Board
-  attr_accessor :grid
+  attr_accessor :grid, :current_player
 
   def initialize
     @grid = Array.new(8) { Array.new (8) }
+    @current_player = :white
     populate
   end
 
@@ -22,13 +23,13 @@ class Board
     grid[0][0] = Rook.new([0,0], self, :black)
     grid[0][1] = Knight.new([0,1], self, :black)
     grid[0][2] = Bishop.new([0,2], self, :black)
-    grid[0][3] = Queen.new([0,3], self, :black)
-    grid[0][4] = King.new([0,4], self, :black)
+    grid[0][3] = King.new([0,3], self, :black)
+    grid[0][4] = Queen.new([0,4], self, :black)
     grid[0][5] = Bishop.new([0,5], self, :black)
     grid[0][6] = Knight.new([0,6], self, :black)
     grid[0][7] = Rook.new([0,7], self, :black)
-    #grid[1].each_index { |idx| grid[1][idx] = Pawn.new([1, idx], self, :black)}
-    (1..5).each do |idx1|
+    grid[1].each_index { |idx| grid[1][idx] = Pawn.new([1, idx], self, :black)}
+    (2..5).each do |idx1|
       grid[idx1].each_index do |idx2|
         grid[idx1][idx2] = NullPiece.instance
       end
@@ -37,8 +38,8 @@ class Board
     grid[7][0] = Rook.new([7,0], self, :white)
     grid[7][1] = Knight.new([7,1], self, :white)
     grid[7][2] = Bishop.new([7,2], self, :white)
-    grid[7][3] = Queen.new([7,3], self, :white)
-    grid[7][4] = King.new([7,4], self, :white)
+    grid[7][3] = King.new([7,3], self, :white)
+    grid[7][4] = Queen.new([7,4], self, :white)
     grid[7][5] = Bishop.new([7,5], self, :white)
     grid[7][6] = Knight.new([7,6], self, :white)
     grid[7][7] = Rook.new([7,7], self, :white)
@@ -60,6 +61,29 @@ class Board
 
   def empty?(pos)
     self[pos].empty?
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    grid.each do |row|
+      row.each do |piece|
+        next if piece.is_a?(NullPiece)
+        if piece.color != color && piece.moves.include?(king_pos)
+          return true
+        end
+      end
+    end
+    false
+  end
+
+  def find_king(color)
+    grid.each do |row|
+      row.each do |piece|
+        if piece.is_a?(King) && piece.color == color
+          return piece.position
+        end
+      end
+    end
   end
 
   def[](pos)
