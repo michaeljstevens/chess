@@ -4,13 +4,12 @@ class Game
   attr_accessor :board, :current_player, :display
 
   def initialize
-    @board = Board.new
+    @board = Board.new(:white)
     @display = Display.new(board)
-    @current_player = :white
   end
 
   def play
-    until board.checkmate?(@current_player)
+    until board.checkmate?
       display.render
       position = @display.get_move
       piece = @board[position[0]]
@@ -18,6 +17,7 @@ class Game
         @board.move(position[0], position[1])
       end
       @display.render
+      @board.switch_player
     end
     puts "Checkmate! #{current_player.upcase} loses."
   end

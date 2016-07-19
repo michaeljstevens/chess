@@ -9,7 +9,7 @@ class Display
 
   def initialize(board)
     @board = board
-    @cursor_pos = [0,0]
+    @cursor_pos = [6,4]
     @selected = false
   end
 
@@ -32,11 +32,11 @@ class Display
 
   def colors_for(i, j, piece)
     if [i, j] == @cursor_pos
-      bg = :light_red
-    elsif (i + j).odd?
-      bg = :light_blue
-    else
       bg = :blue
+    elsif (i + j).odd?
+      bg = :light_red
+    else
+      bg = :light_black
     end
     { background: bg, color: piece.color }
   end
@@ -44,8 +44,8 @@ class Display
   def get_move
     start_pos = nil
     end_pos = nil
+    render
     while true
-      render
       while start_pos.nil?
         render
         start_pos = get_input
@@ -60,6 +60,7 @@ class Display
 
   def render
     system("clear")
+    puts "#{@board.current_player.upcase}'s Turn"
     if @board.in_check?(@board.current_player)
       puts "#{(@board.current_player).upcase} is in check!"
     end

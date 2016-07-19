@@ -12,7 +12,7 @@ require_relative 'display'
 class Board
   attr_accessor :grid, :current_player
 
-  def initialize
+  def initialize(current_player)
     @grid = Array.new(8) { Array.new (8) }
     @current_player = current_player
     populate
@@ -31,8 +31,8 @@ class Board
     grid[0][0] = Rook.new([0,0], self, :black)
     grid[0][1] = Knight.new([0,1], self, :black)
     grid[0][2] = Bishop.new([0,2], self, :black)
-    grid[0][3] = King.new([0,3], self, :black)
-    grid[0][4] = Queen.new([0,4], self, :black)
+    grid[0][3] = Queen.new([0,3], self, :black)
+    grid[0][4] = King.new([0,4], self, :black)
     grid[0][5] = Bishop.new([0,5], self, :black)
     grid[0][6] = Knight.new([0,6], self, :black)
     grid[0][7] = Rook.new([0,7], self, :black)
@@ -46,8 +46,8 @@ class Board
     grid[7][0] = Rook.new([7,0], self, :white)
     grid[7][1] = Knight.new([7,1], self, :white)
     grid[7][2] = Bishop.new([7,2], self, :white)
-    grid[7][3] = King.new([7,3], self, :white)
-    grid[7][4] = Queen.new([7,4], self, :white)
+    grid[7][3] = Queen.new([7,3], self, :white)
+    grid[7][4] = King.new([7,4], self, :white)
     grid[7][5] = Bishop.new([7,5], self, :white)
     grid[7][6] = Knight.new([7,6], self, :white)
     grid[7][7] = Rook.new([7,7], self, :white)
@@ -84,9 +84,9 @@ class Board
     false
   end
 
-  def checkmate?(color)
+  def checkmate?
+    color = @current_player
     return false unless in_check?(color)
-    king_pos = find_king(color)
     grid.each do |row|
       row.each do |piece|
         next if piece.is_a?(NullPiece)
