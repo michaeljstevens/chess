@@ -14,16 +14,10 @@ class Board
 
   def initialize
     @grid = Array.new(8) { Array.new (8) }
-    @display = Display.new(grid)
     populate
-    render
   end
 
-  def render
-    position = @display.get_move
-    move(position[0], position[1])
-    @display.render
-  end
+
 
 
   def populate
@@ -57,7 +51,7 @@ class Board
     raise "Please choose a piece" if self[start].nil?
     self[start].position = end_pos
     self[end_pos] = self[start]
-    self[start] = "         nullpiece       "
+    self[start] = NullPiece.instance
     unless valid_pos?(end_pos)
       raise "Please choose a valid end position"
     end
@@ -76,8 +70,4 @@ class Board
     x, y = pos
     grid[x][y] = value
   end
-end
-
-if __FILE__ == $PROGRAM_NAME
-  a = Board.new
 end
