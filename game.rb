@@ -5,12 +5,13 @@ class Game
 
   def initialize
     @board = Board.new
-    @display = Display.new(board.grid)
+    @display = Display.new(board)
     @current_player = :white
   end
 
   def play
     until checkmate?
+      display.render
       position = @display.get_move
       piece = @board[position[0]]
       if piece.moves.include?(position[1])
