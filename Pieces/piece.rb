@@ -12,14 +12,11 @@ class Piece
     " #{symbol} "
   end
 
-  def empty?()
+  def empty?
+    false
   end
 
   def move_into_check(start_pos)
-  end
-
-
-  def valid_moves()
   end
 
 end

@@ -17,34 +17,31 @@ class Board
     populate
   end
 
-
-
-
   def populate
 
-    grid[0][0] = Rook.new([0,0], grid, :black)
-    grid[0][1] = Knight.new([0,1], grid, :black)
-    grid[0][2] = Bishop.new([0,2], grid, :black)
-    grid[0][3] = Queen.new([0,3], grid, :black)
-    grid[0][4] = King.new([0,4], grid, :black)
-    grid[0][5] = Bishop.new([0,5], grid, :black)
-    grid[0][6] = Knight.new([0,6], grid, :black)
-    grid[0][7] = Rook.new([0,7], grid, :black)
-    grid[1].each_index { |idx| grid[1][idx] = Pawn.new([1, idx], grid, :black)}
-    (2..5).each do |idx1|
+    grid[0][0] = Rook.new([0,0], self, :black)
+    grid[0][1] = Knight.new([0,1], self, :black)
+    grid[0][2] = Bishop.new([0,2], self, :black)
+    grid[0][3] = Queen.new([0,3], self, :black)
+    grid[0][4] = King.new([0,4], self, :black)
+    grid[0][5] = Bishop.new([0,5], self, :black)
+    grid[0][6] = Knight.new([0,6], self, :black)
+    grid[0][7] = Rook.new([0,7], self, :black)
+    #grid[1].each_index { |idx| grid[1][idx] = Pawn.new([1, idx], self, :black)}
+    (1..5).each do |idx1|
       grid[idx1].each_index do |idx2|
         grid[idx1][idx2] = NullPiece.instance
       end
     end
-    grid[6].each_index { |idx| grid[6][idx] = Pawn.new([6, idx], grid, :white)}
-    grid[7][0] = Rook.new([7,0], grid, :white)
-    grid[7][1] = Knight.new([7,1], grid, :white)
-    grid[7][2] = Bishop.new([7,2], grid, :white)
-    grid[7][3] = Queen.new([7,3], grid, :white)
-    grid[7][4] = King.new([7,4], grid, :white)
-    grid[7][5] = Bishop.new([7,5], grid, :white)
-    grid[7][6] = Knight.new([7,6], grid, :white)
-    grid[7][7] = Rook.new([7,7], grid, :white)
+    grid[6].each_index { |idx| grid[6][idx] = Pawn.new([6, idx], self, :white)}
+    grid[7][0] = Rook.new([7,0], self, :white)
+    grid[7][1] = Knight.new([7,1], self, :white)
+    grid[7][2] = Bishop.new([7,2], self, :white)
+    grid[7][3] = Queen.new([7,3], self, :white)
+    grid[7][4] = King.new([7,4], self, :white)
+    grid[7][5] = Bishop.new([7,5], self, :white)
+    grid[7][6] = Knight.new([7,6], self, :white)
+    grid[7][7] = Rook.new([7,7], self, :white)
   end
 
   def move(start, end_pos)
@@ -59,6 +56,10 @@ class Board
 
   def valid_pos?(pos)
     return true if pos[0].between?(0,7) && pos[1].between?(0,7)
+  end
+
+  def empty?(pos)
+    self[pos].empty?
   end
 
   def[](pos)

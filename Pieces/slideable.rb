@@ -1,3 +1,4 @@
+require 'byebug'
 module Slideable
   DIAGS = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
   HORIZ = [[-1, 0], [1, 0], [0, -1], [0, 1]]
@@ -19,18 +20,16 @@ module Slideable
   end
 
   def grow_unblocked_moves(x, y)
-    current_x, current_y = pos
+    current_x, current_y = position
     moves = []
     while true
-      current_x, current_y = current_x + dx, current_y + dy
-      pos = [current_x, current_y]
-
-      break unless board.valid_pos?(pos)
-
-      if board.empty?(pos)
-        moves << pos
+      current_x, current_y = current_x + x, current_y + y
+      position = [current_x, current_y]
+      break unless board.valid_pos?(position)
+      if board.empty?(position)
+        moves << position
       else
-        moves << pos if board[pos].color != color
+        moves << position if board[position].color != color
         break
       end
     end
