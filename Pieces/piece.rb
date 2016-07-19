@@ -12,6 +12,10 @@ class Piece
     " #{symbol} "
   end
 
+  def inspect
+    self.class.name
+  end
+
   def empty?
     false
   end

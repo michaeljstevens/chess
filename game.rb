@@ -10,7 +10,7 @@ class Game
   end
 
   def play
-    until checkmate?
+    until board.checkmate?(@current_player)
       display.render
       position = @display.get_move
       piece = @board[position[0]]
@@ -21,8 +21,9 @@ class Game
     end
   end
 
-  def checkmate?
-    false
+
+  def inspect
+    @display.render
   end
 
 end

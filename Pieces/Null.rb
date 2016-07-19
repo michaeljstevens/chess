@@ -13,5 +13,8 @@ class NullPiece
   def empty?
     true
   end
-  
+
+  def inspect
+    "Null"
+  end
 end
