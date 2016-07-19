@@ -12,7 +12,10 @@ class Game
   def play
     until checkmate?
       position = @display.get_move
-      @board.move(position[0], position[1])
+      piece = @board[position[0]]
+      if piece.moves.include?(position[1])
+        @board.move(position[0], position[1])
+      end
       @display.render
     end
   end
