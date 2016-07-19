@@ -14,8 +14,16 @@ class Board
 
   def initialize
     @grid = Array.new(8) { Array.new (8) }
-    @current_player = :white
+    @current_player = current_player
     populate
+  end
+
+  def switch_player
+    if @current_player == :white
+      @current_player = :black
+    else
+      @current_player = :white
+    end
   end
 
   def populate
@@ -39,7 +47,7 @@ class Board
     grid[7][1] = Knight.new([7,1], self, :white)
     grid[7][2] = Bishop.new([7,2], self, :white)
     grid[7][3] = King.new([7,3], self, :white)
-    grid[7][4] = Queen.new([7,4], self, :black)
+    grid[7][4] = Queen.new([7,4], self, :white)
     grid[7][5] = Bishop.new([7,5], self, :white)
     grid[7][6] = Knight.new([7,6], self, :white)
     grid[7][7] = Rook.new([7,7], self, :white)
@@ -89,17 +97,12 @@ class Board
   end
 
   def check_moves(piece)
-    p piece
-    val_origin = piece.dup
-    idx_origin = piece.position.dup
+    val_origin = piece
+    idx_origin = piece.position
     piece.moves.select do |pos|
       val_dest = self[pos]
-      idx_dest = pos.dup
-      begin
-        self.move(piece.position, pos)
-      rescue
-        debugger
-      end
+      idx_dest = pos
+      self.move(piece.position, pos)
       is_in_check = in_check?(current_player)
       possible_pos = pos if !is_in_check
       undo(val_origin, idx_origin, val_dest, idx_dest)
@@ -108,8 +111,10 @@ class Board
   end
 
   def undo(val_origin, idx_origin, val_dest, idx_dest)
+    val_origin.position = idx_origin unless val_origin.is_a?(NullPiece)
     self[idx_origin] = val_origin
     self[idx_dest] = val_dest
+
   end
 
   def find_king(color)

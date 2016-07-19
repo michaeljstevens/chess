@@ -19,6 +19,7 @@ class Game
       end
       @display.render
     end
+    puts "Checkmate! #{current_player.upcase} loses."
   end
 
 
