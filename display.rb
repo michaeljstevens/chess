@@ -23,12 +23,12 @@ class Display
 
   def build_row(row, i)
     row.map.with_index do |piece, j|
-      color_options = colors_for(i, j)
+      color_options = colors_for(i, j, piece)
       piece.to_s.colorize(color_options)
     end
   end
 
-  def colors_for(i, j)
+  def colors_for(i, j, piece)
     if [i, j] == @cursor_pos
       bg = :light_red
     elsif (i + j).odd?
@@ -36,7 +36,7 @@ class Display
     else
       bg = :blue
     end
-    { background: bg, color: :white }
+    { background: bg, color: piece.color }
   end
 
   def get_move
