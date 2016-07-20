@@ -55,9 +55,17 @@ class Board
 
   def move(start, end_pos)
     raise "Please choose a piece" if self[start].nil?
+    val_orig = self[start]
+    idx_orig = start
+    val_dest = self[end_pos]
+    idx_dest = end_pos
     self[start].position = end_pos
     self[end_pos] = self[start]
     self[start] = NullPiece.instance
+    if in_check?(current_player)
+      undo(val_orig, idx_orig, val_dest, idx_dest)
+      raise "Can't move into check"
+    end
     unless valid_pos?(end_pos)
       raise "Please choose a valid end position"
     end

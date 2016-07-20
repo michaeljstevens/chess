@@ -44,11 +44,10 @@ class Display
   def get_move
     start_pos = nil
     end_pos = nil
-    render
     while true
       while start_pos.nil?
-        render
         start_pos = get_input("first")
+        render
       end
       while end_pos.nil?
         render
@@ -58,11 +57,14 @@ class Display
     end
   end
 
-  def render
+  def render(check = nil)
     system("clear")
     puts "#{@board.current_player.upcase}'s Turn"
     if @board.in_check?(@board.current_player)
       puts "#{(@board.current_player).upcase} is in check!"
+    end
+    if check
+      puts "Can't move into check"
     end
     build_grid.each { |row| puts row.join }
   end

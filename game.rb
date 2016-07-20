@@ -11,10 +11,15 @@ class Game
   def play
     until board.checkmate?
       display.render
-      position = @display.get_move
-      piece = @board[position[0]]
-      if piece.moves.include?(position[1])
-        @board.move(position[0], position[1])
+      begin
+        position = @display.get_move
+        piece = @board[position[0]]
+        if piece.moves.include?(position[1])
+          @board.move(position[0], position[1])
+        end
+      rescue
+        display.render("check")
+        retry
       end
       @display.render
       @board.switch_player
