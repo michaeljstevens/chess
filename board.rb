@@ -63,6 +63,7 @@ class Board
     self[end_pos] = self[start]
     self[start] = NullPiece.instance
     if in_check?(current_player)
+      debugger
       undo(val_orig, idx_orig, val_dest, idx_dest)
       raise "Can't move into check"
     end
