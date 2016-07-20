@@ -31,13 +31,17 @@ module Cursorable
     down: [1, 0]
   }
 
-  def handle_input
+  def handle_input(order)
     key = KEYMAP[read_char]
     case key
     when :ctrl_c
       exit 0
     when :return, :space
-      @cursor_pos
+      if order == "first"
+        @cursor_pos if board[@cursor_pos].color == board.current_player
+      else
+        @cursor_pos
+      end
     when :left, :right, :up, :down
       update_pos(MOVES[key])
       nil

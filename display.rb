@@ -13,8 +13,8 @@ class Display
     @selected = false
   end
 
-  def get_input
-    handle_input
+  def get_input(order)
+    handle_input(order)
   end
 
   def build_grid
@@ -48,11 +48,11 @@ class Display
     while true
       while start_pos.nil?
         render
-        start_pos = get_input
+        start_pos = get_input("first")
       end
       while end_pos.nil?
         render
-        end_pos = get_input
+        end_pos = get_input("second")
       end
       return [start_pos, end_pos]
     end
